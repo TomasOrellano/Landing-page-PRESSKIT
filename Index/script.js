@@ -1,7 +1,7 @@
 // YouTube Videos Configuration
 const youtubeVideos = [
-    'https://youtu.be/xGXUAsNApw0?si=z6Rn2atJNlQrW0eh',
-    'https://youtu.be/VzmmBaJIODg?si=mn6lufJBUnj1Uqaa'
+    'https://youtu.be/xGXUAsNApw0',
+    'https://youtu.be/VzmmBaJIODg'
 ];
 
 // Google Drive Folder ID
@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadBeatportReleases();
     setupSmoothScrolling();
     setupScrollEffects();
+    setupTabs();
 });
 
 // Beatport Releases Configuration
@@ -144,12 +145,12 @@ function openBeatportLink(url) {
     window.open(url, '_blank');
 }
 
-// Gallery Images Configuration
+// Gallery Images Configuration with Categories
 const galleryImages = [
-    '../Imagen-video/FONDO.jpg',
-    '../Imagen-video/Galeria3.jpg',
-    '../Imagen-video/Galeria5.jpeg',
-    '../Imagen-video/Galeria7.jpeg',
+    { url: '../Imagen-video/FONDO.jpg', category: 'sets-vivo' },
+    { url: '../Imagen-video/Galeria3.jpg', category: 'eventos' },
+    { url: '../Imagen-video/Galeria5.jpeg', category: 'sets-vivo' },
+    { url: '../Imagen-video/Galeria7.jpeg', category: 'eventos' },
 ];
 
 function loadGoogleDriveImages() {
@@ -170,99 +171,62 @@ function loadGoogleDriveImages() {
 
     setTimeout(() => {
         galleryGrid.innerHTML = '';
-        galleryImages.forEach((imageUrl, index) => {
+        galleryImages.forEach((imageData, index) => {
             const item = document.createElement('a');
-            item.className = 'gallery-item';
-            item.href = imageUrl;
+            item.className = `gallery-item ${imageData.category}`;
+            item.href = imageData.url;
             item.target = '_blank';
             item.setAttribute('data-aos', 'zoom-in');
             item.setAttribute('data-aos-delay', (index * 100).toString());
-            item.innerHTML = `<img src="${imageUrl}" alt="Galería ${index + 1}">`;
+            item.innerHTML = `<img src="${imageData.url}" alt="Galería ${index + 1}">`;
             galleryGrid.appendChild(item);
         });
         AOS.refresh();
     }, 400);
 }
 
+// Setup Gallery Filters
+function setupGalleryFilters() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active button
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Filter items
+            const filter = btn.getAttribute('data-filter');
+            galleryItems.forEach(item => {
+                if (filter === '*' || item.matches(filter)) {
+                    item.style.display = 'block';
+                    item.style.animation = 'fadeIn 0.5s ease';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+}
+
 // Load YouTube Videos
 function loadYouTubeVideos() {
     const videosGrid = document.getElementById('videosGrid');
-    videosGrid.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+    if (!videosGrid) return;
     
-    youtubeVideos.forEach((videoUrl, index) => {
+    videosGrid.innerHTML = '';
+    
+    youtubeVideos.forEach(async (videoUrl, index) => {
         const videoId = extractYouTubeId(videoUrl);
         if (videoId) {
-            const videoCard = createVideoCard(videoId, index);
+            const details = await getVideoDetails(videoId);
+            const title = details?.title || `Video ${index + 1}`;
+            const videoCard = createVideoCard(videoId, title, index);
             videosGrid.appendChild(videoCard);
+            AOS.refresh();
         }
     });
-    
-    // Remove loading spinner
-    setTimeout(() => {
-        const loading = videosGrid.querySelector('.loading');
-        if (loading) loading.remove();
-    }, 1000);
-}
-
-// Extract YouTube Video ID
-function extractYouTubeId(url) {
-    const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/;
-    const match = url.match(regex);
-    return match ? match[1] : null;
-}
-
-// Create Video Card
-function createVideoCard(videoId, index) {
-    const card = document.createElement('div');
-    card.className = 'video-card';
-    card.setAttribute('data-aos', 'zoom-in');
-    card.setAttribute('data-aos-delay', (index * 200).toString());
-
-    card.innerHTML = `
-        <a class="video-thumbnail" href="https://www.youtube.com/watch?v=${videoId}" target="_blank" rel="noopener noreferrer">
-            <img src="https://img.youtube.com/vi/${videoId}/maxresdefault.jpg" alt="Video ${index + 1}">
-            <div class="play-button">
-                <i class="fas fa-play"></i>
-            </div>
-        </a>
-        <div class="video-info">
-            <h3>Video ${index + 1}</h3>
-            <p>Se abrirá YouTube en nueva pestaña</p>
-        </div>
-    `;
-    return card;
-}
-
-// Load YouTube Videos
-function loadYouTubeVideos() {
-    const videosGrid = document.getElementById('videosGrid');
-    videosGrid.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
-    
-    // Load video details for each video
-    Promise.all(youtubeVideos.map(url => getVideoDetails(extractYouTubeId(url))))
-        .then(videoDetails => {
-            videosGrid.innerHTML = '';
-            videoDetails.forEach((details, index) => {
-                if (details) {
-                    const videoCard = createVideoCard(details.id, details.title, index);
-                    videosGrid.appendChild(videoCard);
-                }
-            });
-            AOS.refresh();
-        })
-        .catch(error => {
-            console.error('Error loading video details:', error);
-            // Fallback to simple cards
-            videosGrid.innerHTML = '';
-            youtubeVideos.forEach((videoUrl, index) => {
-                const videoId = extractYouTubeId(videoUrl);
-                if (videoId) {
-                    const videoCard = createVideoCard(videoId, `Video ${index + 1}`, index);
-                    videosGrid.appendChild(videoCard);
-                }
-            });
-            AOS.refresh();
-        });
 }
 
 // Get video details from YouTube API
@@ -279,9 +243,51 @@ async function getVideoDetails(videoId) {
         console.error('Error fetching video details:', error);
         return null;
     }
-}       
+}
 
-// Create Gallery Item
+// Extract YouTube Video ID
+function extractYouTubeId(url) {
+    const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+}
+
+// Create Video Card with thumbnail preview
+function createVideoCard(videoId, title, index) {
+    const card = document.createElement('div');
+    card.className = 'video-card';
+    card.setAttribute('data-aos', 'zoom-in');
+    card.setAttribute('data-aos-delay', (index * 200).toString());
+
+    // YouTube thumbnail URL
+    const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+    const youtubeUrl = `https://www.youtube.com/watch?v=${videoId}`;
+
+    card.innerHTML = `
+        <div class="video-wrapper">
+            <a href="${youtubeUrl}" target="_blank" class="video-thumbnail">
+                <img src="${thumbnailUrl}" alt="${title}" style="width: 100%; height: auto; display: block;">
+                <div class="video-play-btn">
+                    <i class="fas fa-play"></i>
+                </div>
+            </a>
+            <iframe 
+                style="display: none;"
+                width="100%" 
+                height="315" 
+                src="https://www.youtube.com/embed/${videoId}" 
+                title="${title}" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+        <div class="video-info">
+            <h3>${title}</h3>
+        </div>
+    `;
+    return card;
+}
 function createGalleryItem(imageUrl, index) {
     const item = document.createElement('div');
     item.className = 'gallery-item';
@@ -371,7 +377,7 @@ function setupBiographyEditor() {
     }
 }
 
-// Setup Contact Form
+// Setup Contact Form with EmailJS
 function setupContactForm() {
     const form = document.getElementById('contactForm');
     
@@ -380,27 +386,35 @@ function setupContactForm() {
         
         // Get form data
         const formData = new FormData(form);
-        const data = Object.fromEntries(formData);
+        const templateParams = {
+            eventName: formData.get('eventName'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            eventDate: formData.get('eventDate'),
+            eventType: formData.get('eventType'),
+            message: formData.get('message'),
+            to_email: 'tomiiorellano@gmail.com', // Replace with actual email
+        };
         
-        // Create email content
-        const emailContent = `
-            Nombre del Evento: ${data['Nombre del Evento']}
-            Email: ${data['Email de Contacto']}
-            Fecha: ${data['Fecha del Evento']}
-            Mensaje: ${data['Mensaje Detallado']}
-        `;
+        // Show loading message
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Enviando...';
+        submitBtn.disabled = true;
         
-        // Create mailto link
-        const mailtoLink = `mailto:tomiiorellano@gmail.com?subject=Solicitud de Evento - ${data['Nombre del Evento']}&body=${encodeURIComponent(emailContent)}`;
-        
-        // Open email client
-        window.location.href = mailtoLink;
-        
-        // Show success message
-        showMessage('Solicitud enviada. Revisa tu email cliente.');
-        
-        // Reset form
-        form.reset();
+        // Send email using EmailJS
+        emailjs.send('service_tommyorellano', 'template_booking', templateParams)
+            .then(function(response) {
+                showMessage('✓ Evento registrado! Te contactaremos pronto.', 'success');
+                form.reset();
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, function(error) {
+                showMessage('Error al enviar. Intenta contactar directamente por email.', 'error');
+                console.error('EmailJS Error:', error);
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
     });
 }
 
@@ -534,4 +548,37 @@ floatStyle.textContent = `
 document.head.appendChild(floatStyle);
 
 // Initialize particles
-createParticles();  
+createParticles();
+
+// Setup Contact Tabs
+function setupTabs() {
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabName = btn.getAttribute('data-tab');
+            
+            // Hide all tabs
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active from all buttons
+            tabBtns.forEach(b => {
+                b.classList.remove('active');
+            });
+            
+            // Show selected tab and mark button as active
+            document.getElementById(tabName).classList.add('active');
+            btn.classList.add('active');
+        });
+    });
+}
+
+// Download Presskit Function
+function downloadPreskit() {
+    // This would open a presskit PDF or document
+    // For now, it opens the Google Drive folder
+    window.open('https://drive.google.com/drive/folders/1ze3iUKaPEuSPlHi4AiBx2gbUgeuRO_AK', '_blank');
+}  

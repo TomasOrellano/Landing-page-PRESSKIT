@@ -11,9 +11,21 @@
     <!-- AOS Animation -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
-    <!-- Font Awesome -->
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            // IMPORTANTE: Reemplaza con tu propia Public Key de EmailJS
+            // 1. Crea cuenta en https://www.emailjs.com/
+            // 2. Copia tu Public Key
+            // 3. Reemplaza "Y5jxR9qF7L3K2M0X" con tu clave real
+            emailjs.init("Y5jxR9qF7L3K2M0X");
+        })();
+    </script>
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
@@ -26,9 +38,10 @@
         <nav class="nav">
             <div class="logo">Tommy Orellano</div>
             <ul class="nav-menu">
-    <li><a href="#bio">Biografía</a></li>
+    <li><a href="#stats">Estadísticas</a></li>
     <li><a href="#releases">Releases</a></li>
     <li><a href="#videos">Videos</a></li>
+    <li><a href="#events">Giras</a></li>
     <li><a href="#gallery">Galería</a></li>
     <li><a href="#contact">Contacto</a></li>
 </ul>
@@ -44,6 +57,31 @@
             <div class="hero-buttons" data-aos="fade-up" data-aos-delay="900">
                 <a href="#contact" class="btn btn-primary">Contratar Evento</a>
                 <a href="#videos" class="btn btn-secondary">Ver Sets</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section id="stats" class="stats-section" data-aos="fade-right" data-aos-duration="1000">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Tommy en Números</h2>
+            <div class="stats-grid">
+                <div class="stat-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="stat-number">3K+</div>
+                    <div class="stat-label">Seguidores en Instagram</div>
+                </div>
+                <div class="stat-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Ciudades en Argentina</div>
+                </div>
+                <div class="stat-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="stat-number">9</div>
+                    <div class="stat-label">Sellos Discográficos</div>
+                </div>
+                <div class="stat-card" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="stat-number">#1</div>
+                    <div class="stat-label">Top Charts Organic House</div>
+                </div>
             </div>
         </div>
     </section>
@@ -64,6 +102,52 @@
         </div>
     </section>
 
+    <!-- Events Section -->
+    <section id="events" class="events-section" data-aos="fade-up" data-aos-duration="1000">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Próximos Eventos & Giras</h2>
+            <div class="events-grid" id="eventsGrid">
+                <!-- Events will be loaded dynamically -->
+                <div class="event-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="event-date">
+                        <div class="date-day">15</div>
+                        <div class="date-month">ABR</div>
+                    </div>
+                    <div class="event-info">
+                        <h3>Búzios Sunset Sessions</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> Búzios, Brasil</p>
+                        <p><i class="fas fa-clock"></i> 20:00 - 02:00</p>
+                        <a href="#contact" class="btn btn-small"><i class="fas fa-ticket-alt"></i> Información</a>
+                    </div>
+                </div>
+                <div class="event-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="event-date">
+                        <div class="date-day">22</div>
+                        <div class="date-month">ABR</div>
+                    </div>
+                    <div class="event-info">
+                        <h3>Buenos Aires Deep Session</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> Buenos Aires, Argentina</p>
+                        <p><i class="fas fa-clock"></i> 23:00 - 05:00</p>
+                        <a href="#contact" class="btn btn-small"><i class="fas fa-ticket-alt"></i> Información</a>
+                    </div>
+                </div>
+                <div class="event-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="event-date">
+                        <div class="date-day">10</div>
+                        <div class="date-month">MAY</div>
+                    </div>
+                    <div class="event-info">
+                        <h3>Mar del Plata Live</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> Mar del Plata, Argentina</p>
+                        <p><i class="fas fa-clock"></i> 22:00 - 04:00</p>
+                        <a href="#contact" class="btn btn-small"><i class="fas fa-ticket-alt"></i> Información</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 <!-- Releases Section -->
 <section id="releases" class="releases-section" data-aos="fade-up" data-aos-duration="1000">
     <div class="container">
@@ -77,12 +161,9 @@
     <!-- Videos Section -->
     <section id="videos" class="videos-section" data-aos="fade-left" data-aos-duration="1000">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Videos</h2>
+            <h2 class="section-title" data-aos="fade-up">Videos de Sets</h2>
             <div class="videos-grid" id="videosGrid">
                 <!-- YouTube videos will be loaded here -->
-                <div class="video-wrapper">
-                    <iframe width="560" height="315" src="https://www.youtube.com/watch?v=VzmmBaJIODg&list=RDVzmmBaJIODg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                </div>
             </div>
         </div>
     </section>
@@ -100,33 +181,128 @@
         </div>
     </section>
 
+    <!-- Redes Sociales -->
+    <section class="social-highlight" data-aos="fade-up">
+        <div class="container">
+            <h3>Sígueme en Redes</h3>
+            <div class="social-links">
+                <a href="https://www.instagram.com/tommyorellano/" target="_blank" class="social-icon instagram">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+                <a href="https://soundcloud.com/tommyorellano" target="_blank" class="social-icon soundcloud">
+                    <i class="fab fa-soundcloud"></i> SoundCloud
+                </a>
+                <a href="https://www.beatport.com/artist/tommy-orellano/631353" target="_blank" class="social-icon beatport">
+                    <i class="fas fa-music"></i> Beatport
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
     <section id="contact" class="contact-section" data-aos="fade-up" data-aos-duration="1000">
         <div class="container">
-            <h2 class="section-title" data-aos="zoom-in">Contacto</h2>
-            <div class="contact-content">
-                <div class="contact-info" data-aos="fade-right" data-aos-delay="200">
-                    <h3>Para Organizadores de Eventos</h3>
-                    <p>Disponible para eventos, clubes, festivales y experiencias boutique.</p>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <a href="mailto:tomiiorellano@gmail.com">tomiiorellano@gmail.com</a>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-phone"></i>
-                            <a href="tel:+542494537710">+542494537710</a>
+            <h2 class="section-title" data-aos="zoom-in">Contacto & Booking</h2>
+            <div class="contact-tabs">
+                <button class="tab-btn active" data-tab="booking">DJ Booking</button>
+                <button class="tab-btn" data-tab="info">Info General</button>
+                <button class="tab-btn" data-tab="presskit">Presskit</button>
+            </div>
+            
+            <!-- Booking Tab -->
+            <div id="booking" class="tab-content active">
+                <div class="contact-content">
+                    <div class="contact-info" data-aos="fade-right" data-aos-delay="200">
+                        <h3>Para Organizadores de Eventos</h3>
+                        <p>Disponible para eventos, clubes, festivales y experiencias boutique en Argentina y Brasil.</p>
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:tomiiorellano@gmail.com">tomiiorellano@gmail.com</a>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <a href="tel:+542494537710">+542494537710</a>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fab fa-whatsapp"></i>
+                                <a href="https://wa.me/542494537710">WhatsApp</a>
+                            </div>
                         </div>
                     </div>
+                    <div class="contact-form" data-aos="fade-left" data-aos-delay="400">
+                        <form id="contactForm">
+                            <input type="text" name="eventName" placeholder="Nombre del Evento" required>
+                            <input type="email" name="email" placeholder="Email de Contacto" required>
+                            <input type="tel" name="phone" placeholder="Teléfono" required>
+                            <input type="date" name="eventDate" placeholder="Fecha del Evento" required>
+                            <select name="eventType" required>
+                                <option value="">Seleccionar tipo de evento</option>
+                                <option value="Club">Club / Discoteca</option>
+                                <option value="Festival">Festival</option>
+                                <option value="Private">Evento Privado</option>
+                                <option value="Corporate">Corporativo</option>
+                                <option value="Wedding">Boda</option>
+                                <option value="Other">Otro</option>
+                            </select>
+                            <textarea name="message" placeholder="Detalles del evento (capacidad, horario, presupuesto)" rows="4" required></textarea>
+                            <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="contact-form" data-aos="fade-left" data-aos-delay="400">
-                    <form id="contactForm">
-                        <input type="text" placeholder="Nombre del Evento" required>
-                        <input type="email" placeholder="Email de Contacto" required>
-                        <input type="date" placeholder="Fecha del Evento" required>
-                        <textarea placeholder="Mensaje Detallado" rows="4" required></textarea>
-                        <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
-                    </form>
+            </div>
+
+            <!-- Info Tab -->
+            <div id="info" class="tab-content">
+                <div class="info-box" data-aos="fade-up">
+                    <h3>Información Rápida</h3>
+                    <p><strong>Genres:</strong> Deep House, Organic House, Progressive, Deep Tech</p>
+                    <p><strong>Experiencia en vivo:</strong> Más de 100 presentaciones en vivo</p>
+                    <p><strong>Disponibilidad:</strong> Fines de semana y feriados</p>
+                    <p><strong>Radio de acción:</strong> Argentina, Brasil y países LATAM</p>
+                    <div style="margin-top: 1.5rem;">
+                        <a href="#" class="btn btn-primary" onclick="downloadPreskit()">
+                            <i class="fas fa-download"></i> Descargar Rider Técnico
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Presskit Tab -->
+            <div id="presskit" class="tab-content">
+                <div class="presskit-box" data-aos="fade-up">
+                    <h3>Presskit Digital</h3>
+                    <p>Incluye fotos de alta resolución, biografía, discografía y especificaciones técnicas.</p>
+                    <div style="margin-top: 1.5rem;">
+                        <a href="https://drive.google.com/drive/folders/1ze3iUKaPEuSPlHi4AiBx2gbUgeuRO_AK" target="_blank" class="btn btn-primary">
+                            <i class="fas fa-folder"></i> Acceder a Google Drive
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq-section" data-aos="fade-up" data-aos-duration="1000">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Preguntas Frecuentes</h2>
+            <div class="faq-grid">
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+                    <h4><i class="fas fa-angle-right"></i> ¿Cuál es tu tarifa?</h4>
+                    <p>Las tarifas se adaptan según el tipo de evento, duración del set y disponibilidad de viaje. Contáctanos para presupuesto personalizado.</p>
+                </div>
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+                    <h4><i class="fas fa-angle-right"></i> ¿Duración típica de un set?</h4>
+                    <p>Generalmente 2-5 horas según las necesidades del evento. Adaptamos la duración a tus requerimientos específicos.</p>
+                </div>
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
+                    <h4><i class="fas fa-angle-right"></i> ¿Qué equipo necesito proporcionar?</h4>
+                    <p>Te enviaremos un rider técnico detallado con todos los requerimientos. Generalmente disponemos de mixer, decks y equipamiento básico.</p>
+                </div>
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="400">
+                    <h4><i class="fas fa-angle-right"></i> ¿Aceptas solicitudes internacionales?</h4>
+                    <p>Sí, principalmente en Argentina y Brasil. Para otros países, contáctanos para evaluar posibilidades.</p>
                 </div>
             </div>
         </div>
