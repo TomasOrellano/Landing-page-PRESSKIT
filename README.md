@@ -6,6 +6,12 @@ Esta es la versión **optimizada para UX** de la landing page profesional de Tom
 
 ## 🎯 Cambios Principales Implementados
 
+### 🛠️ Correcciones recientes
+- ✅ `Way To Heaven` path corregido a `Imagen-video/RynthEP.webp` para entornos case-sensitive.
+- ✅ Galería: botones de filtro (`Todos`, `Sets en Vivo`, `Estudio`, `Eventos`) añadidos en UI.
+- ✅ Filtrado de galería activado con `setupGalleryFilters()` invocado en carga de página.
+- ✅ Documentación alineada con el comportamiento actual del sitio.
+
 ### ✨ Nuevas Secciones
 | Sección | Descripción | Estado |
 |---------|-----------|--------|

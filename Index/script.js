@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     loadYouTubeVideos();
     loadGoogleDriveImages();
+    setupGalleryFilters();
     setupContactForm();
     loadBeatportReleases();
     setupSmoothScrolling();
@@ -54,7 +55,7 @@ const beatportReleases = [
         title: 'Way To Heaven',
         type: 'EP',
         label: 'RYNTH',
-        image: '../Imagen-video/RYNTHEP.webp'
+        image: '../Imagen-video/RynthEP.webp'
     },
     {
         url: 'https://www.beatport.com/es/track/sona/16782352',
@@ -181,6 +182,7 @@ function loadGoogleDriveImages() {
             item.innerHTML = `<img src="${imageData.url}" alt="Galería ${index + 1}">`;
             galleryGrid.appendChild(item);
         });
+        setupGalleryFilters();
         AOS.refresh();
     }, 400);
 }
@@ -188,20 +190,24 @@ function loadGoogleDriveImages() {
 // Setup Gallery Filters
 function setupGalleryFilters() {
     const filterBtns = document.querySelectorAll('.filter-btn');
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    
+    if (!filterBtns.length) {
+        return;
+    }
+
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             // Update active button
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
+
             // Filter items
             const filter = btn.getAttribute('data-filter');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
             galleryItems.forEach(item => {
                 if (filter === '*' || item.matches(filter)) {
                     item.style.display = 'block';
-                    item.style.animation = 'fadeIn 0.5s ease';
+                    item.style.animation = 'fadeIn 0.3s ease';
                 } else {
                     item.style.display = 'none';
                 }
