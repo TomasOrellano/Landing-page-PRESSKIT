@@ -1000,7 +1000,7 @@ select option {
 }
 
 /* Responsive section adjustments */
-
+.floating-soundcloud {
     position: fixed;
     bottom: 40px;
     right: 40px;
